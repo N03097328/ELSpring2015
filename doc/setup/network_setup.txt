@@ -1,0 +1,33 @@
+I followed the instructions posted on Blackboard using the GUI to set the Wi-Fi.
+I did not encouter any problems with setting up Wi-Fi connection using "WiFi Configuration".
+
+/etc/network/interface file:
+--------------------------------------------------------------------------------------------------------------
+auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+iface wlan0 inet manual
+wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp
+--------------------------------------------------------------------------------------------------------------
+
+
+/etc/wpa_supplicant/wpa_supplicant.conf file:
+--------------------------------------------------------------------------------------------------------------
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+        ssid="NP Hawks WPA"
+        proto=RSN
+        key_mgmt=WPA-EAP
+        pairwise=CCMP
+        auth_alg=OPEN
+        eap=PEAP
+        identity="telesduf1"
+        password="***********"
+}
+--------------------------------------------------------------------------------------------------------------
