@@ -1,14 +1,42 @@
 #!/usr/local/bin/python
 # -*- coding: UTF-8 -*-
 from flask import Flask, render_template
+from flask import request
+from flask import Response
+from flask import json
 import os
 import time
 
+#Sqlite Library
+import sqlite3 as db
+import sys
+
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/gettemp", methods = ['GET'])
 def hello():
-    return "Hello World!"
+    time = float(request.args['n']) / 30
+    
+    con = db.connect('temperature.db')
+    
+    with con:
+        cur = con.cursor()
+
+        cur.execute("SELECT COUNT(*) FROM TempData ")
+        
+        offset = cur.fetchone()
+        
+        offset = float(offset[0]) - time
+        
+        cur.execute("""SELECT date, roomTempC, cityTempC FROM TempData LIMIT ? OFFSET ? """, (time, offset))
+
+        data = cur.fetchall()
+    
+    js = json.dumps(data)
+
+    resp = Response(js, status=200, mimetype='application/json')
+
+    return resp
 
 @app.route("/readtemp")
 def readTemp():
