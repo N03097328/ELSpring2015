@@ -31,7 +31,7 @@ def hello():
         cur.execute("""SELECT date, roomTempC, cityTempC FROM TempData LIMIT ? OFFSET ? """, (time, offset))
 
         data = cur.fetchall()
-    
+
     js = json.dumps(data)
 
     resp = Response(js, status=200, mimetype='application/json')

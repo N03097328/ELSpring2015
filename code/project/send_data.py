@@ -17,17 +17,20 @@ import MySQLdb
 
 def getData():
     con = db.connect('temperature.db')
-        
+    
+    # This enables column_name
+    con.row_factory = db.Row
+    
     with con:
         cur = con.cursor()
         
-        cur.execute("""SELECT date, roomTempC, cityTempC FROM TempData""")
+        cur.execute("""SELECT date, roomTempC, cityTempC FROM TempData LIMIT 5""")
 
         data = cur.fetchall()
     
     return data
 
-rows = getData()
+recs = getData()
 
 # for row in rows:
 #     print row[0]
@@ -43,6 +46,8 @@ rows = getData()
 httpServ = httplib.HTTPConnection("cs.newpaltz.edu")
 httpServ.connect()
 
+rows = [ dict(rec) for rec in recs ]
+    
 js = json.dumps(rows)
     
 httpServ.request('POST', "/~fernandi2/playground/t1.php", js)
