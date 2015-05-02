@@ -1,0 +1,6 @@
+#Buoy Project
+#Log File created to debug any issue while trying to transmit the data in the buoy to the web server 
+#Version: 1.0
+#Date: 18-April-2015
+#Fields: timestamp,millisecond log-level log-message
+
