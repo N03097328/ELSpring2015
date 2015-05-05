@@ -87,7 +87,9 @@ def deleteRows(last_row):
     with con:
         cur = con.cursor()
         
-        cur.execute("""DELETE FROM data WHERE time <= (?)""", (last_row))
+        sql = "DELETE FROM data WHERE time <= " + last_row
+        
+        cur.execute(sql)
 
         con.commit()
     
